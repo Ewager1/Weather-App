@@ -1,5 +1,4 @@
 // Snapshot Section
-// 1. Add Units to the ends of snapShot Data
 // 2. Find UV
 // 	a. Which API?
 // 	b. figure out the wait ajax function to make UV run at same time as other snapshot data
@@ -33,6 +32,8 @@ let snapShot = $(".snapShot"); // grabs today's weather div
 let queryUrl =
   "https://api.openweathermap.org/data/2.5/weather?q=Boston&units=imperial&appid=" +
   apiKey;
+let latitude = "";
+let longitude = "";
 
 // Creates a default setting to the city of Boston
 $.ajax({
@@ -43,7 +44,8 @@ $.ajax({
   temp = response.main.temp;
   windSpeed = response.wind.speed;
   humidity = response.main.humidity;
-
+  let longitude = response.coord.lon;
+  let latitude = response.coord.lat;
   //creates h3 element, adds City Name, then appends to html
   let cityHeader = $("<h3>").text("Boston");
   snapShot.append(cityHeader);
@@ -59,6 +61,20 @@ $.ajax({
     pTag.text(weatherArray[i]);
     snapShot.append(pTag);
   }
+  $.ajax({
+    url:
+      "http://api.openweathermap.org/data/2.5/uvi?lat=" +
+      latitude +
+      "&lon=" +
+      longitude +
+      "&appid=" +
+      apiKey,
+    method: "GET",
+  }).then(function (secondResponse) {
+    let pTag = $("<p>");
+    pTag.text(`UV Index: ${secondResponse.value}`);
+    snapShot.append(pTag);
+  });
 });
 
 //queries weather for the users input
@@ -86,9 +102,9 @@ inputBtn.on("click", function () {
     cityHeader = $("<h3>").text(userCityInput);
     snapShot.append(cityHeader);
 
-    //updates weather data to user's chosen cit
+    //updates weather data to user's chosen city
     weatherArray = [
-      `fahrenheit: ${temp}  &#8457`,
+      `fahrenheit: ${temp}  \u00B0F`,
       ` Wind Speed: ${windSpeed}`,
       `Humidity: ${humidity}`,
     ];
