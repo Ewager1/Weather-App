@@ -1,8 +1,3 @@
-// Snapshot Section
-// 2. Find UV
-// 	a. Which API?
-// 	b. figure out the wait ajax function to make UV run at same time as other snapshot data
-// 	c. change UV color based on it's number. Look up favorable, moderate, severe
 // 3. Add date to snaptshot from scheduling app
 
 // 5 Day Section
@@ -34,6 +29,65 @@ let queryUrl =
   apiKey;
 let latitude = "";
 let longitude = "";
+
+// Section: Sets up Time at top of screen
+// top of page:  displaying day of week, month, date, ordinal, and year
+// assigments
+const $currentDateandDay = $(".currentDateandDay"); //grabs p tag
+const currentDate = new Date(); //grabs todays date from built in function
+const currentMonth = currentDate.getMonth(); // returns current month of year
+
+const monthsInYear = [
+  //months in the year array
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+const currentDayInMonth = currentDate.getDate(); //returns a number from 0-11 based on month
+const currentYear = currentDate.getFullYear(); // returns current Year
+
+// top of page:  displaying day of week, month, date, ordinal, and year
+const pTag = $("<p>");
+const navTime = $(".time");
+//styling to fix parent h1 inheritence
+pTag.css("font-size", "large");
+pTag.css("text-align", "center");
+
+pTag.text(
+  `${
+    monthsInYear[currentMonth - 1]
+  } ${currentDayInMonth}${dateOrdinal()} ${currentYear}`
+);
+navTime.append(pTag);
+
+//displays day of week.
+
+//sets the appropriate ordinal to current date
+function dateOrdinal() {
+  if (
+    currentDayInMonth === 1 ||
+    currentDayInMonth === 21 ||
+    currentDayInMonth === 31
+  ) {
+    return "st,";
+  } else if (currentDayInMonth === 2 || currentDayInMonth === 22) {
+    return "nd,";
+  } else if (currentDayInMonth === 3) {
+    return "rd,";
+  } else {
+    return "th,";
+  }
+}
+
+//Section: Default City Weather
 
 // Creates a default setting to the city of Boston
 $.ajax({
@@ -71,11 +125,28 @@ $.ajax({
       apiKey,
     method: "GET",
   }).then(function (secondResponse) {
+    //adds UV data onto webpage.
     let pTag = $("<p>");
-    pTag.text(`UV Index: ${secondResponse.value}`);
+    let sTag = $("<span>");
+    pTag.text(`UV Index: `);
+    pTag.append(sTag);
+    sTag.text(secondResponse.value);
     snapShot.append(pTag);
+    //logic changes UV background color based on UV severity index
+    if (secondResponse.value <= 2) {
+      sTag.attr("class", "green");
+    } else if (secondResponse.value <= 5) {
+      sTag.attr("class", "yellow");
+    } else if (secondResponse.value <= 7) {
+      sTag.attr("class", "orange");
+    } else {
+      sTag.attr("class", "red");
+    }
   });
 });
+//Section End: Default City Weather
+
+//Section: Input City Weather
 
 //queries weather for the users input
 inputBtn.on("click", function () {
@@ -94,6 +165,9 @@ inputBtn.on("click", function () {
     temp = response.main.temp;
     windSpeed = response.wind.speed;
     humidity = response.main.humidity;
+    //lat and long below will be passed to nested UV Ajax
+    let longitude = response.coord.lon;
+    let latitude = response.coord.lat;
 
     //empty previous header and weather data
     snapShot.empty();
@@ -113,5 +187,35 @@ inputBtn.on("click", function () {
       pTag.text(weatherArray[i]);
       snapShot.append(pTag);
     }
+    $.ajax({
+      url:
+        "http://api.openweathermap.org/data/2.5/uvi?lat=" +
+        latitude +
+        "&lon=" +
+        longitude +
+        "&appid=" +
+        apiKey,
+      method: "GET",
+    }).then(function (secondResponse) {
+      //adds UV data onto webpage.
+      let pTag = $("<p>");
+      let sTag = $("<span>");
+      pTag.text(`UV Index: `);
+      pTag.append(sTag);
+      sTag.text(secondResponse.value);
+      snapShot.append(pTag);
+      //logic changes UV background color based on UV severity index
+      if (secondResponse.value <= 2) {
+        sTag.attr("class", "green");
+      } else if (secondResponse.value <= 5) {
+        sTag.attr("class", "yellow");
+      } else if (secondResponse.value <= 7) {
+        sTag.attr("class", "orange");
+      } else {
+        sTag.attr("class", "red");
+      }
+    });
   });
 });
+
+//Section End: Default City Weather

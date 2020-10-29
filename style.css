@@ -14,18 +14,20 @@
   height: 50vh;
 }
 
+
+/* UV Background Options */ 
 .red {
   background-color: red;
 }
 
-.blue {
-  background-color: blue;
+.orange {
+  background-color: orange;
 }
 
 .green {
   background-color: green;
 }
 
-.yello {
+.yellow {
   background-color: yellow;
 }
