@@ -31,3 +31,9 @@
 .yellow {
   background-color: yellow;
 }
+
+/*weather icon size */
+.iconSize{
+  height:75px;
+  width:75px;
+}

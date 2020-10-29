@@ -1,5 +1,3 @@
-// 3. Add date to snaptshot from scheduling app
-
 // 5 Day Section
 // 1. Set up 5 columns or use float left with margins for 5 days
 // 2. Pull Api for Boston and set up default temp and humidity
@@ -16,7 +14,7 @@
 // 2. make responsive
 // 3. add favicon
 
-//assignments
+//weather assignments
 const apiKey = "1222240c823f23e742864fd02f06eb25"; //my Api Key
 let cityInput = $(".cityInput"); // grabs the search input box
 const inputBtn = $(".inputBtn"); //grabs the search button
@@ -30,9 +28,7 @@ let queryUrl =
 let latitude = "";
 let longitude = "";
 
-// Section: Sets up Time at top of screen
-// top of page:  displaying day of week, month, date, ordinal, and year
-// assigments
+// time clock assigments
 const $currentDateandDay = $(".currentDateandDay"); //grabs p tag
 const currentDate = new Date(); //grabs todays date from built in function
 const currentMonth = currentDate.getMonth(); // returns current month of year
@@ -54,6 +50,8 @@ const monthsInYear = [
 const currentDayInMonth = currentDate.getDate(); //returns a number from 0-11 based on month
 const currentYear = currentDate.getFullYear(); // returns current Year
 
+//Section: Time Clock at top of Page
+
 // top of page:  displaying day of week, month, date, ordinal, and year
 const pTag = $("<p>");
 const navTime = $(".time");
@@ -67,8 +65,6 @@ pTag.text(
   } ${currentDayInMonth}${dateOrdinal()} ${currentYear}`
 );
 navTime.append(pTag);
-
-//displays day of week.
 
 //sets the appropriate ordinal to current date
 function dateOrdinal() {
@@ -98,11 +94,34 @@ $.ajax({
   temp = response.main.temp;
   windSpeed = response.wind.speed;
   humidity = response.main.humidity;
+  //lat and long will be passed to UV index function
   let longitude = response.coord.lon;
   let latitude = response.coord.lat;
+  let imgTag = $("<img>");
+  imgTag.attr("class", "iconSize");
+  //adds image icon from weather app based on api weather type
+  if (response.weather[0].main === "Clear") {
+    imgTag.attr("src", "http://openweathermap.org/img/wn/01d@2x.png");
+  } else if (response.weather[0].main === "Clouds") {
+    imgTag.attr("src", "http://openweathermap.org/img/wn/02d@2x.png");
+  } else if (
+    response.weather[0].main === "Rain" ||
+    response.weather[0].main === "Drizzle"
+  ) {
+    imgTag.attr("src", "http://openweathermap.org/img/wn/09d@2x.png");
+  } else if (response.weather[0].main === "Thunderstorm") {
+    imgTag.attr("src", "http://openweathermap.org/img/wn/11d@2x.png");
+  } else if (response.weather[0].main === "Snow") {
+    imgTag.attr("src", "http://openweathermap.org/img/wn/13d@2x.png");
+  } else {
+    imgTag.attr("src", "http://openweathermap.org/img/wn/50d@2x.png");
+  }
   //creates h3 element, adds City Name, then appends to html
-  let cityHeader = $("<h3>").text("Boston");
+  let cityHeader = $("<h3>").text(`Boston`);
+
+  //appends city name and image
   snapShot.append(cityHeader);
+  cityHeader.append(imgTag);
 
   //creates p elements, adds weather data, then appends to html
   let weatherArray = [
@@ -144,9 +163,8 @@ $.ajax({
     }
   });
 });
-//Section End: Default City Weather
 
-//Section: Input City Weather
+//Section: User Input City Weather
 
 //queries weather for the users input
 inputBtn.on("click", function () {
@@ -168,12 +186,32 @@ inputBtn.on("click", function () {
     //lat and long below will be passed to nested UV Ajax
     let longitude = response.coord.lon;
     let latitude = response.coord.lat;
+    let imgTag = $("<img>");
+    //adds image icon from weather app based on api weather type
+    if (response.weather[0].main === "Clear") {
+      imgTag.attr("src", "http://openweathermap.org/img/wn/01d@2x.png");
+    } else if (response.weather[0].main === "Clouds") {
+      imgTag.attr("src", "http://openweathermap.org/img/wn/02d@2x.png");
+    } else if (
+      response.weather[0].main === "Rain" ||
+      response.weather[0].main === "Drizzle"
+    ) {
+      imgTag.attr("src", "http://openweathermap.org/img/wn/09d@2x.png");
+    } else if (response.weather[0].main === "Thunderstorm") {
+      imgTag.attr("src", "http://openweathermap.org/img/wn/11d@2x.png");
+    } else if (response.weather[0].main === "Snow") {
+      imgTag.attr("src", "http://openweathermap.org/img/wn/13d@2x.png");
+    } else {
+      imgTag.attr("src", "http://openweathermap.org/img/wn/50d@2x.png");
+    }
 
     //empty previous header and weather data
     snapShot.empty();
 
     //changes city name to user's chosen city
     cityHeader = $("<h3>").text(userCityInput);
+    cityHeader.append(imgTag);
+    imgTag.attr("class", "iconSize");
     snapShot.append(cityHeader);
 
     //updates weather data to user's chosen city
@@ -217,5 +255,3 @@ inputBtn.on("click", function () {
     });
   });
 });
-
-//Section End: Default City Weather
