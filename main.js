@@ -335,9 +335,11 @@ function getCityInfo(){
   var saveHistory = $(".saveHistory");
   saveHistory.empty()
   for(i=0; i<savedCities.length;i++){
-    let pTag = $('<p>')
+    let pTag = $('<h4>')
     pTag.text(savedCities[i])
     saveHistory.append(pTag)
+    saveHistory.append($('<br>'))
+    
   }}
 
     getCityInfo();
