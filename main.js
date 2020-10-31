@@ -27,61 +27,26 @@ let queryUrl =
   apiKey;
 let latitude = "";
 let longitude = "";
+let count = 0;
 
-// time clock assigments
-const $currentDateandDay = $(".currentDateandDay"); //grabs p tag
-const currentDate = new Date(); //grabs todays date from built in function
-const currentMonth = currentDate.getMonth(); // returns current month of year
-
-const monthsInYear = [
-  //months in the year array
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
-const currentDayInMonth = currentDate.getDate(); //returns a number from 0-11 based on month
-const currentYear = currentDate.getFullYear(); // returns current Year
-
-//Section: Time Clock at top of Page
-
-// top of page:  displaying day of week, month, date, ordinal, and year
-const pTag = $("<p>");
-const navTime = $(".time");
-//styling to fix parent h1 inheritence
-pTag.css("font-size", "large");
-pTag.css("text-align", "center");
-
-pTag.text(
-  `${
-    monthsInYear[currentMonth - 1]
-  } ${currentDayInMonth}${dateOrdinal()} ${currentYear}`
-);
-navTime.append(pTag);
-
-//sets the appropriate ordinal to current date
-function dateOrdinal() {
-  if (
-    currentDayInMonth === 1 ||
-    currentDayInMonth === 21 ||
-    currentDayInMonth === 31
-  ) {
-    return "st,";
-  } else if (currentDayInMonth === 2 || currentDayInMonth === 22) {
-    return "nd,";
-  } else if (currentDayInMonth === 3) {
-    return "rd,";
-  } else {
-    return "th,";
+//Section: Date in Navbar
+function setDates() {
+  const pTag = $("<p>");
+  const navTime = $(".time");
+  //adds current date to tag
+  pTag.text(dayjs().format("MMMM D, YYYY"));
+  //fix font issues caused by navbar defaults
+  pTag.attr("class", "fontFix");
+  //appends Tag
+  navTime.append(pTag);
+  //creates and appends dates for 5 days of week
+  for (i = 0; i < 5; i++) {
+    nextFiveDays = $(".forecast");
+    dayofYear = dayjs().add([i + 1], "day");
+    nextFiveDays[i].append(dayofYear.format("MMMM D, YYYY"));
   }
 }
+setDates();
 
 //Section: Default City Weather
 
@@ -100,6 +65,7 @@ $.ajax({
   let imgTag = $("<img>");
   imgTag.attr("class", "iconSize");
   //adds image icon from weather app based on api weather type
+
   if (response.weather[0].main === "Clear") {
     imgTag.attr("src", "http://openweathermap.org/img/wn/01d@2x.png");
   } else if (response.weather[0].main === "Clouds") {
@@ -125,7 +91,7 @@ $.ajax({
 
   //creates p elements, adds weather data, then appends to html
   let weatherArray = [
-    `fahrenheit: ${temp} \u00B0F`,
+    `Fahrenheit: ${temp} \u00B0F`,
     ` Wind Speed: ${windSpeed} MPH`,
     `Humidity: ${humidity}%`,
   ];
@@ -161,6 +127,51 @@ $.ajax({
     } else {
       sTag.attr("class", "red");
     }
+  });
+  //5 Days Forecast Section for Default
+  $.ajax({
+    url:
+      "https://api.openweathermap.org/data/2.5/forecast?q=" +
+      response.name +
+      "&units=imperial" +
+      "&appid=" +
+      apiKey,
+    method: "GET",
+  }).then(function (secondResponse) {
+    // the weather list has 40 sets, one for every 3 hours. count+8  means every 24 hours, or once per day
+    let count = 0;
+    $(".forecast").each(function (i) {
+      let imgTag = $("<img>");
+      weatherArray = secondResponse.list[count].weather[0].main;
+      if (weatherArray === "Clear") {
+        imgTag.attr("src", "http://openweathermap.org/img/wn/01d@2x.png");
+        $(this).append($("<br>"), imgTag);
+      } else if (weatherArray === "Clouds") {
+        imgTag.attr("src", "http://openweathermap.org/img/wn/02d@2x.png");
+        $(this).append($("<br>"), imgTag);
+      } else if (weatherArray === "Rain" || weatherArray === "Drizzle") {
+        imgTag.attr("src", "http://openweathermap.org/img/wn/09d@2x.png");
+        $(this).append($("<br>"), imgTag);
+      } else if (weatherArray === "Thunderstorm") {
+        imgTag.attr("src", "http://openweathermap.org/img/wn/11d@2x.png");
+        $(this).append($("<br>"), imgTag);
+      } else if (weatherArray === "Snow") {
+        imgTag.attr("src", "http://openweathermap.org/img/wn/13d@2x.png");
+        $(this).append($("<br>"), imgTag);
+      } else {
+        imgTag.attr("src", "http://openweathermap.org/img/wn/50d@2x.png");
+        $(this).append($("<br>"), imgTag);
+      }
+      $(this).append(
+        $("<br>"),
+        "Temp " + secondResponse.list[count].main.temp + " \u00B0F"
+      );
+      $(this).append(
+        $("<br>"),
+        "Humidity: " + secondResponse.list[count].main.humidity + " %"
+      );
+      count = count + 8;
+    });
   });
 });
 
@@ -252,6 +263,56 @@ inputBtn.on("click", function () {
       } else {
         sTag.attr("class", "red");
       }
+    });
+    //5 Days Forecast Section for Default
+
+    $.ajax({
+      url:
+        "https://api.openweathermap.org/data/2.5/forecast?q=" +
+        response.name +
+        "&units=imperial" +
+        "&appid=" +
+        apiKey,
+      method: "GET",
+    }).then(function (secondResponse) {
+      console.log(secondResponse);
+      // the weather list has 40 sets, one for every 3 hours. count+8  means every 24 hours, or once per day
+      forecast = $(".forecast");
+      forecast.empty();
+      forecast.each(function (key, value) {
+        let imgTag = $("<img>");
+        weatherArray = secondResponse.list[count].weather[0].main;
+        if (weatherArray === "Clear") {
+          imgTag.attr("src", "http://openweathermap.org/img/wn/01d@2x.png");
+          $(this).append($("<br>"), imgTag);
+        } else if (weatherArray === "Clouds") {
+          imgTag.attr("src", "http://openweathermap.org/img/wn/02d@2x.png");
+          $(this).append($("<br>"), imgTag);
+        } else if (weatherArray === "Rain" || weatherArray === "Drizzle") {
+          imgTag.attr("src", "http://openweathermap.org/img/wn/09d@2x.png");
+          $(this).append($("<br>"), imgTag);
+        } else if (weatherArray === "Thunderstorm") {
+          imgTag.attr("src", "http://openweathermap.org/img/wn/11d@2x.png");
+          $(this).append($("<br>"), imgTag);
+        } else if (weatherArray === "Snow") {
+          imgTag.attr("src", "http://openweathermap.org/img/wn/13d@2x.png");
+          $(this).append($("<br>"), imgTag);
+        } else {
+          imgTag.attr("src", "http://openweathermap.org/img/wn/50d@2x.png");
+          $(this).append($("<br>"), imgTag);
+        }
+        $(this).append(
+          $("<br>"),
+          "Temp " + secondResponse.list[count].main.temp + " \u00B0F"
+        );
+        $(this).append(
+          $("<br>"),
+          "Humidity: " + secondResponse.list[count].main.humidity + " %"
+        );
+        count = count + 8;
+      });
+      //resets count to avoid continuing past 40 and causing error beyong array length
+      count = 0;
     });
   });
 });

@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <script src= 'https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.9.4/dayjs.min.js'></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link
       rel="stylesheet"
@@ -30,8 +31,18 @@
               <div class="div snapShot"></div> <!--Where Weather data will Go -->
         </div>
         <div class="row"> 
+          <div class="col">
             <h3>5 Day Forcast</h3>
+          </div>
       </div>
+      <div class="row ">
+        <div class="col bg-primary forecast text-center rounded text-white m-3 py-3" ></div> <!--Where 5 day forcast info will go from JS-->
+        <div class="col bg-primary forecast text-center rounded text-white m-3 py-3" ></div>
+        <div class="col bg-primary forecast text-center rounded text-white m-3 py-3" ></div>
+        <div class="col bg-primary forecast text-center rounded text-white m-3 py-3" ></div>
+        <div class="col bg-primary forecast text-center rounded text-white m-3 py-3" ></div>
+      </div>
+
     </main>
   </body>
   <script src ='./main.js' defer></script>

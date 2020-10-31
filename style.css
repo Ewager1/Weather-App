@@ -1,39 +1,50 @@
-.grayBackground {
-  background: lightgray;
-}
+/*styling to fix parent h1 inheritence*/
 
-.magGlass {
-  border-left: 1px solid black;
-  border-top-right-radius: 15px;
-  border-bottom-right-radius: 15px;
-  background-color: #06aed5;
-  color: white;
-}
+.fontFix{
+  font-size: x-large;
+  text-align: center;
+  }
+  
+  .grayBackground {
+    background: lightgray;
+  }
+  
+  .magGlass {
+    border-left: 1px solid black;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    background-color: #06aed5;
+    color: white;
+  }
+  
+  .todaysWeatherHeight {
+    height: 50vh;
+  }
+  
+  
+  /* UV Background Options */ 
+  .red {
+    background-color: red;
+  }
+  
+  .orange {
+    background-color: orange;
+  }
+  
+  .green {
+    background-color: green;
+  }
+  
+  .yellow {
+    background-color: yellow;
+  }
+  
+  /*weather icon size */
+  .iconSize{
+    height:75px;
+    width:75px;
+  }
 
-.todaysWeatherHeight {
-  height: 50vh;
-}
-
-
-/* UV Background Options */ 
-.red {
-  background-color: red;
-}
-
-.orange {
-  background-color: orange;
-}
-
-.green {
-  background-color: green;
-}
-
-.yellow {
-  background-color: yellow;
-}
-
-/*weather icon size */
-.iconSize{
-  height:75px;
-  width:75px;
-}
+  .text-white{
+    color:white
+  }
