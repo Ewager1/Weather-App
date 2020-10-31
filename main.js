@@ -1,19 +1,3 @@
-// 5 Day Section
-// 1. Set up 5 columns or use float left with margins for 5 days
-// 2. Pull Api for Boston and set up default temp and humidity
-// 3. create Time feature that makes each date. (For loop for generating these?)
-// 4. Basic Style
-
-// Search Results Section:
-// 1. Create dynamic div creation with city name that runs api onClick
-// 2. Create Clear Button
-// 3. Create a clear button
-
-// Styling
-// 1. give padding
-// 2. make responsive
-// 3. add favicon
-
 //weather assignments
 const apiKey = "1222240c823f23e742864fd02f06eb25"; //my Api Key
 let cityInput = $(".cityInput"); // grabs the search input box
@@ -218,7 +202,7 @@ inputBtn.on("click", function () {
 
     //empty previous header and weather data
     snapShot.empty();
-
+   
     //changes city name to user's chosen city
     cityHeader = $("<h3>").text(userCityInput);
     cityHeader.append(imgTag);
@@ -275,11 +259,16 @@ inputBtn.on("click", function () {
         apiKey,
       method: "GET",
     }).then(function (secondResponse) {
-      console.log(secondResponse);
       // the weather list has 40 sets, one for every 3 hours. count+8  means every 24 hours, or once per day
       forecast = $(".forecast");
+      dayofYear = dayjs().add([i + 1], "day");
       forecast.empty();
-      forecast.each(function (key, value) {
+       
+    //creates and appends dates for 5 days of week
+    forecast.append(dayofYear.format("MMMM D, YYYY"));
+  
+    //creates and appends weather icons based on weather for each day 
+      forecast.each(function () {
         let imgTag = $("<img>");
         weatherArray = secondResponse.list[count].weather[0].main;
         if (weatherArray === "Clear") {
@@ -301,10 +290,12 @@ inputBtn.on("click", function () {
           imgTag.attr("src", "http://openweathermap.org/img/wn/50d@2x.png");
           $(this).append($("<br>"), imgTag);
         }
+        // creates and appends temperature
         $(this).append(
           $("<br>"),
           "Temp " + secondResponse.list[count].main.temp + " \u00B0F"
         );
+        // creates and appends Humidity 
         $(this).append(
           $("<br>"),
           "Humidity: " + secondResponse.list[count].main.humidity + " %"
@@ -314,5 +305,40 @@ inputBtn.on("click", function () {
       //resets count to avoid continuing past 40 and causing error beyong array length
       count = 0;
     });
+    //Set city name to local storage, then adds to page
+    storeCityName();
+    getCityInfo();
+    
   });
 });
+
+//Creates a last looked up city section on index page
+function storeCityName() {
+ 
+  var cityInput = $(".cityInput");
+  var cityArray;
+
+  if (localStorage.getItem("savedCities")) {
+    cityArray = JSON.parse(localStorage.getItem("savedCities"));
+  } else {
+    localStorage.setItem("savedCities", JSON.stringify([]));
+  }
+  cityArray.push(cityInput.val());
+
+  localStorage.setItem("savedCities", JSON.stringify(cityArray));
+}
+
+//adds recent city searches to the page 
+function getCityInfo(){
+  
+  let savedCities = JSON.parse(localStorage.getItem('savedCities'))
+  var saveHistory = $(".saveHistory");
+  saveHistory.empty()
+  for(i=0; i<savedCities.length;i++){
+    let pTag = $('<p>')
+    pTag.text(savedCities[i])
+    saveHistory.append(pTag)
+  }}
+
+    getCityInfo();
+
