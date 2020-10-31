@@ -51,20 +51,20 @@ $.ajax({
   //adds image icon from weather app based on api weather type
 
   if (response.weather[0].main === "Clear") {
-    imgTag.attr("src", "http://openweathermap.org/img/wn/01d@2x.png");
+    imgTag.attr("src", "https://openweathermap.org/img/wn/01d@2x.png");
   } else if (response.weather[0].main === "Clouds") {
-    imgTag.attr("src", "http://openweathermap.org/img/wn/02d@2x.png");
+    imgTag.attr("src", "https://openweathermap.org/img/wn/02d@2x.png");
   } else if (
     response.weather[0].main === "Rain" ||
     response.weather[0].main === "Drizzle"
   ) {
-    imgTag.attr("src", "http://openweathermap.org/img/wn/09d@2x.png");
+    imgTag.attr("src", "https://openweathermap.org/img/wn/09d@2x.png");
   } else if (response.weather[0].main === "Thunderstorm") {
-    imgTag.attr("src", "http://openweathermap.org/img/wn/11d@2x.png");
+    imgTag.attr("src", "https://openweathermap.org/img/wn/11d@2x.png");
   } else if (response.weather[0].main === "Snow") {
-    imgTag.attr("src", "http://openweathermap.org/img/wn/13d@2x.png");
+    imgTag.attr("src", "https://openweathermap.org/img/wn/13d@2x.png");
   } else {
-    imgTag.attr("src", "http://openweathermap.org/img/wn/50d@2x.png");
+    imgTag.attr("src", "https://openweathermap.org/img/wn/50d@2x.png");
   }
   //creates h3 element, adds City Name, then appends to html
   let cityHeader = $("<h3>").text(`Boston`);
@@ -128,22 +128,22 @@ $.ajax({
       let imgTag = $("<img>");
       weatherArray = secondResponse.list[count].weather[0].main;
       if (weatherArray === "Clear") {
-        imgTag.attr("src", "http://openweathermap.org/img/wn/01d@2x.png");
+        imgTag.attr("src", "https://openweathermap.org/img/wn/01d@2x.png");
         $(this).append($("<br>"), imgTag);
       } else if (weatherArray === "Clouds") {
-        imgTag.attr("src", "http://openweathermap.org/img/wn/02d@2x.png");
+        imgTag.attr("src", "https://openweathermap.org/img/wn/02d@2x.png");
         $(this).append($("<br>"), imgTag);
       } else if (weatherArray === "Rain" || weatherArray === "Drizzle") {
-        imgTag.attr("src", "http://openweathermap.org/img/wn/09d@2x.png");
+        imgTag.attr("src", "https://openweathermap.org/img/wn/09d@2x.png");
         $(this).append($("<br>"), imgTag);
       } else if (weatherArray === "Thunderstorm") {
-        imgTag.attr("src", "http://openweathermap.org/img/wn/11d@2x.png");
+        imgTag.attr("src", "https://openweathermap.org/img/wn/11d@2x.png");
         $(this).append($("<br>"), imgTag);
       } else if (weatherArray === "Snow") {
-        imgTag.attr("src", "http://openweathermap.org/img/wn/13d@2x.png");
+        imgTag.attr("src", "https://openweathermap.org/img/wn/13d@2x.png");
         $(this).append($("<br>"), imgTag);
       } else {
-        imgTag.attr("src", "http://openweathermap.org/img/wn/50d@2x.png");
+        imgTag.attr("src", "https://openweathermap.org/img/wn/50d@2x.png");
         $(this).append($("<br>"), imgTag);
       }
       $(this).append(
@@ -184,20 +184,20 @@ inputBtn.on("click", function () {
     let imgTag = $("<img>");
     //adds image icon from weather app based on api weather type
     if (response.weather[0].main === "Clear") {
-      imgTag.attr("src", "http://openweathermap.org/img/wn/01d@2x.png");
+      imgTag.attr("src", "https://openweathermap.org/img/wn/01d@2x.png");
     } else if (response.weather[0].main === "Clouds") {
-      imgTag.attr("src", "http://openweathermap.org/img/wn/02d@2x.png");
+      imgTag.attr("src", "https://openweathermap.org/img/wn/02d@2x.png");
     } else if (
       response.weather[0].main === "Rain" ||
       response.weather[0].main === "Drizzle"
     ) {
-      imgTag.attr("src", "http://openweathermap.org/img/wn/09d@2x.png");
+      imgTag.attr("src", "https://openweathermap.org/img/wn/09d@2x.png");
     } else if (response.weather[0].main === "Thunderstorm") {
-      imgTag.attr("src", "http://openweathermap.org/img/wn/11d@2x.png");
+      imgTag.attr("src", "https://openweathermap.org/img/wn/11d@2x.png");
     } else if (response.weather[0].main === "Snow") {
-      imgTag.attr("src", "http://openweathermap.org/img/wn/13d@2x.png");
+      imgTag.attr("src", "https://openweathermap.org/img/wn/13d@2x.png");
     } else {
-      imgTag.attr("src", "http://openweathermap.org/img/wn/50d@2x.png");
+      imgTag.attr("src", "https://openweathermap.org/img/wn/50d@2x.png");
     }
 
     //empty previous header and weather data
@@ -222,7 +222,7 @@ inputBtn.on("click", function () {
     }
     $.ajax({
       url:
-        "http://api.openweathermap.org/data/2.5/uvi?lat=" +
+        "https://api.openweathermap.org/data/2.5/uvi?lat=" +
         latitude +
         "&lon=" +
         longitude +
@@ -272,22 +272,22 @@ inputBtn.on("click", function () {
         let imgTag = $("<img>");
         weatherArray = secondResponse.list[count].weather[0].main;
         if (weatherArray === "Clear") {
-          imgTag.attr("src", "http://openweathermap.org/img/wn/01d@2x.png");
+          imgTag.attr("src", "https://openweathermap.org/img/wn/01d@2x.png");
           $(this).append($("<br>"), imgTag);
         } else if (weatherArray === "Clouds") {
-          imgTag.attr("src", "http://openweathermap.org/img/wn/02d@2x.png");
+          imgTag.attr("src", "https://openweathermap.org/img/wn/02d@2x.png");
           $(this).append($("<br>"), imgTag);
         } else if (weatherArray === "Rain" || weatherArray === "Drizzle") {
-          imgTag.attr("src", "http://openweathermap.org/img/wn/09d@2x.png");
+          imgTag.attr("src", "https://openweathermap.org/img/wn/09d@2x.png");
           $(this).append($("<br>"), imgTag);
         } else if (weatherArray === "Thunderstorm") {
-          imgTag.attr("src", "http://openweathermap.org/img/wn/11d@2x.png");
+          imgTag.attr("src", "https://openweathermap.org/img/wn/11d@2x.png");
           $(this).append($("<br>"), imgTag);
         } else if (weatherArray === "Snow") {
-          imgTag.attr("src", "http://openweathermap.org/img/wn/13d@2x.png");
+          imgTag.attr("src", "https://openweathermap.org/img/wn/13d@2x.png");
           $(this).append($("<br>"), imgTag);
         } else {
-          imgTag.attr("src", "http://openweathermap.org/img/wn/50d@2x.png");
+          imgTag.attr("src", "https://openweathermap.org/img/wn/50d@2x.png");
           $(this).append($("<br>"), imgTag);
         }
         // creates and appends temperature
