@@ -86,7 +86,7 @@ $.ajax({
   }
   $.ajax({
     url:
-      "http://api.openweathermap.org/data/2.5/uvi?lat=" +
+      "https://api.openweathermap.org/data/2.5/uvi?lat=" +
       latitude +
       "&lon=" +
       longitude +
@@ -202,7 +202,7 @@ inputBtn.on("click", function () {
 
     //empty previous header and weather data
     snapShot.empty();
-   
+
     //changes city name to user's chosen city
     cityHeader = $("<h3>").text(userCityInput);
     cityHeader.append(imgTag);
@@ -263,11 +263,11 @@ inputBtn.on("click", function () {
       forecast = $(".forecast");
       dayofYear = dayjs().add([i + 1], "day");
       forecast.empty();
-       
-    //creates and appends dates for 5 days of week
-    forecast.append(dayofYear.format("MMMM D, YYYY"));
-  
-    //creates and appends weather icons based on weather for each day 
+
+      //creates and appends dates for 5 days of week
+      forecast.append(dayofYear.format("MMMM D, YYYY"));
+
+      //creates and appends weather icons based on weather for each day
       forecast.each(function () {
         let imgTag = $("<img>");
         weatherArray = secondResponse.list[count].weather[0].main;
@@ -295,7 +295,7 @@ inputBtn.on("click", function () {
           $("<br>"),
           "Temp " + secondResponse.list[count].main.temp + " \u00B0F"
         );
-        // creates and appends Humidity 
+        // creates and appends Humidity
         $(this).append(
           $("<br>"),
           "Humidity: " + secondResponse.list[count].main.humidity + " %"
@@ -308,13 +308,11 @@ inputBtn.on("click", function () {
     //Set city name to local storage, then adds to page
     storeCityName();
     getCityInfo();
-    
   });
 });
 
 //Creates a last looked up city section on index page
 function storeCityName() {
- 
   var cityInput = $(".cityInput");
   var cityArray;
 
@@ -328,19 +326,17 @@ function storeCityName() {
   localStorage.setItem("savedCities", JSON.stringify(cityArray));
 }
 
-//adds recent city searches to the page 
-function getCityInfo(){
-  
-  let savedCities = JSON.parse(localStorage.getItem('savedCities'))
+//adds recent city searches to the page
+function getCityInfo() {
+  let savedCities = JSON.parse(localStorage.getItem("savedCities"));
   var saveHistory = $(".saveHistory");
-  saveHistory.empty()
-  for(i=0; i<savedCities.length;i++){
-    let pTag = $('<h4>')
-    pTag.text(savedCities[i])
-    saveHistory.append(pTag)
-    saveHistory.append($('<br>'))
-    
-  }}
+  saveHistory.empty();
+  for (i = 0; i < savedCities.length; i++) {
+    let pTag = $("<h4>");
+    pTag.text(savedCities[i]);
+    saveHistory.append(pTag);
+    saveHistory.append($("<br>"));
+  }
+}
 
-    getCityInfo();
-
+getCityInfo();
